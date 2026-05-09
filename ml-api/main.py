@@ -7,7 +7,12 @@ app = FastAPI()
 artifact = load("cosmic_classifier.joblib")
 
 class PredictionInput(BaseModel):
-    data: dict
+    u: float
+    g: float
+    r: float
+    i: float
+    z: float
+    redshift: float
 
 @app.get("/")
 def read_root():
@@ -15,7 +20,7 @@ def read_root():
 
 @app.post("/predict")
 def predict(input: PredictionInput):
-    df = pd.DataFrame([input.data])
+    df = pd.DataFrame([input.model_dump()])
     df = df[artifact["columns"]]
     X_scaled = artifact["scaler"].transform(df)
     pred = artifact["model"].predict(X_scaled)
