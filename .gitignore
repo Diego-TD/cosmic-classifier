@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+/ml-api/.idea
+/ml-api/data
+/ml-api/__pycache__
