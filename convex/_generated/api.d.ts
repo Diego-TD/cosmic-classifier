@@ -9,6 +9,7 @@
  */
 
 import type * as predict from "../predict.js";
+import type * as predictions from "../predictions.js";
 
 import type {
   ApiFromModules,
@@ -18,6 +19,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   predict: typeof predict;
+  predictions: typeof predictions;
 }>;
 
 /**
