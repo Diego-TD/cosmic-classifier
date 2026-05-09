@@ -1,8 +1,8 @@
-"use node"
-
 import { v } from "convex/values"
-import { action } from "./_generated/server"
+import { action, internalMutation, query } from "./_generated/server"
 import { internal } from "./_generated/api"
+
+declare const process: { env: Record<string, string | undefined> }
 
 export const predict = action({
   args: {
@@ -14,7 +14,7 @@ export const predict = action({
     redshift: v.number(),
   },
   handler: async (ctx, args) => {
-    const apiUrl = process.env.ML_API
+    const apiUrl = process.env.ML_API ?? "http://localhost:8000"
     const response = await fetch(`${apiUrl}/predict`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -24,5 +24,26 @@ export const predict = action({
     const result: string = data.class
     await ctx.runMutation(internal.predict.storePrediction, { ...args, result })
     return result
+  },
+})
+
+export const storePrediction = internalMutation({
+  args: {
+    u: v.number(),
+    g: v.number(),
+    r: v.number(),
+    i: v.number(),
+    z: v.number(),
+    redshift: v.number(),
+    result: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.insert("predictions", args)
+  },
+})
+
+export const getPredictions = query({
+  handler: async (ctx) => {
+    return await ctx.db.query("predictions").order("desc").collect()
   },
 })
