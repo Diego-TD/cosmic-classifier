@@ -1,21 +1,50 @@
-# React + TypeScript + Vite + shadcn/ui
+# Cosmic classifier
+Web app and ML algorithm to classify space objects
 
-This is a template for a new Vite project with React, TypeScript, and shadcn/ui.
+## how to run:
 
-## Adding components
+### 1. Web App
 
-To add components to your app, run the following command:
-
+install dependencias
 ```bash
-npx shadcn@latest add button
+npm i
 ```
 
-This will place the ui components in the `src/components` directory.
+frontend
+```
+npm run dev
+```
 
-## Using components
+backend
+```
+npx convex dev
+```
 
-To use the components in your app, import them as follows:
 
-```tsx
-import { Button } from "@/components/ui/button"
+### 2. ML API local use
+create venv, if first time
+```bash
+# python or python 3
+python -m venv venv
+
+```
+
+load .venv
+```bash
+source venv/bin/activate
+```
+
+install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+run api on deb
+```bash
+fastapi dev
+```
+
+use ngrok to open a tunnel and use the api with public url
+```bash
+ngrok http 8000
 ```
